@@ -92,8 +92,6 @@ Tugas Anda adalah memindahkan fungsi-fungsinya ke tempat yang benar di folder `a
 ![Halaman Dashboard - Produk Bertambah](tampilan5.png)
 *Halaman Dashboard - Tombol Hapus*
 ![Halaman Dashboard - Tombol Hapus](tampilan6.png)
-*Halaman Dashboard - Tombol Hapus*
-![Halaman Dashboard - Tombol Hapus](tampilan6.png)
 *Halaman Dashboard - Produk Berkurang*
 ![Halaman Dashboard - Produk Berkurang](tampilan7.png)
 *Halaman Dashboard - Responsive*

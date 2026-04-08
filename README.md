@@ -18,14 +18,14 @@ Tujuan utama ujian ini adalah *memperbaiki kode yang berantakan* (Legacy Code) m
 ### Langkah 1: Pahami Masalah (Legacy Code)
 Buka folder ⁠`legacy_code/spaghetti.php`⁠. Lihat betapa berantakannya kode tersebut (Spaghetti Code). 
 
-Tugas Anda adalah memindahkan fungsi-fungsinya ke tempat yang benar di folder `app/`.
+Tugas Anda adalah memindahkan fungsi-fungsinya ke tempat yang benar di folder `app/`. (DONE)
 
 ### Langkah 2: Kelola Data (Model)
 •⁠  ⁠Buka `app/Models/ProductModel.php`.
 
 •⁠  ⁠*TUGAS:* Ganti isi array di dalam fungsi `getDummyData()` dengan data yang sesuai dengan bisnis Startup Anda (Minimal 3 data).
 
-•⁠  ⁠Contoh: Jika startup Anda jasa cuci sepatu, maka datanya adalah: `Cuci Deep Clean`⁠, `Un-yellowing`, dll.
+•⁠  ⁠Contoh: Jika startup Anda jasa cuci sepatu, maka datanya adalah: `Cuci Deep Clean`⁠, `Un-yellowing`, dll. (DONE)
 
 ### Langkah 3: Logika Login & Logout (Controller Auth)
 •⁠  ⁠Buka `app/Controllers/Auth.php`.
@@ -52,27 +52,30 @@ Tugas Anda adalah memindahkan fungsi-fungsinya ke tempat yang benar di folder `a
 
 ## 📝 LEMBAR JAWABAN (WAJIB DIISI)
 
-*Nama:* [Isi Nama Anda]
+*Nama:* Nurwakhidah Oktaviani
 
-*NIM:* [Isi NIM Anda]
+*NIM:* 25120100061
 
 ### 1. Profil Startup
-•⁠  ⁠*Nama Startup:* [Misal: Kopi Kenangan Mantan]
+•⁠  ⁠*Nama Startup:* Bazaar.
 
-•⁠  ⁠*Problem yang Diselesaikan:* [Misal: Susahnya dapet kopi enak tapi murah]
+•⁠  ⁠*Problem yang Diselesaikan:* Memberikan rasa aman dan keberkahan bagi konsumen Muslim melalui marketplace yang 100% terverifikasi halal dan sistem transaksi yang bebas dari unsur riba (bunga).
 
-•⁠  ⁠*Target Pengguna:* [Misal: Mahasiswa semester tua]
+•⁠  ⁠*Target Pengguna:* Masyarakat Muslim Indonesia usia 18-45 tahun yang melek digital dan mencari produk serta layanan (seperti umrah) yang sesuai syari'at.
 
 ### 2. Penjelasan Fitur JavaScript (DOM)
-•⁠  ⁠*Apa yang Anda buat?* (Contoh: Saya membuat fungsi pengurangan stok otomatis saat tombol beli diklik).
+•⁠  ⁠*Apa yang Anda buat?* Saya membuat fitur manipulasi DOM pada halaman dashboard. Ketika pengguna mengklik tombol "Beli", fungsi javascript akan menangkap ID produk tersebut dan secara otomatis mengurangi angka stok di tabel secara real-time tanpa perlu refresh halaman.
 
 ### 3. Entity Relationship Diagram (ERD)
-(Tempel link gambar atau screenshot ERD database startup Anda di sini)
+![ERD Bazaar](erd-bazaar.png)
 
 ### 4. Refleksi Refactoring
 •⁠  ⁠*Pertanyaan:* Kenapa kita harus memisahkan kode menjadi Model, View, dan Controller (MVC)? Kenapa tidak pakai cara lama seperti di ⁠ spaghetti.php ⁠ saja?
 
-•⁠  ⁠*Jawaban:* [Jelaskan jawaban Anda di sini]
+•⁠  ⁠*Jawaban:* Menurut saya memisahkan kode dengan pola MVC ini agar tugas-tugas lebih terorganisir dan tidak terjadi tumpang tindih. Kalau tetap pakai cara lama (spaghetti code), semua kodenya akan menumpuk di satu tempat dan itu sangat membingungkan saat aplikasi mulai besar atau bisnis mulai scale up. Bisa diibaratkan seperti kita mencari satu barang di gudang yang berantakan. Dengan memakai pola MVC, maka setiap bagian punya tanggungjawab masing-masing. Pimisahan ini juga membuat code lebih rapi, mudah diperbaiki jika ada error dan pastinya lebih siap untuk dikembangkan lebih besar.
 
 ---
 Kumpulkan tugas dengan cara mengirimkan file zip berisi BWD-MID-STARTER-KIT yang sudah dimodifikasi
+
+
+[def]: erd_bazaar.png

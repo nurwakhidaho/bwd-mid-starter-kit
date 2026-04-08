@@ -82,10 +82,26 @@ Tugas Anda adalah memindahkan fungsi-fungsinya ke tempat yang benar di folder `a
 ![ERD Bazaar](erd-bazaar.png)
 *Halaman Login*
 ![Halaman Login](tampilan1.png)
+*Halaman Dashboard Awal*
+![Halaman Dashboard Awal](tampilan2.png)
 *Halaman Dashboard - Tombol Beli*
-![Halaman Dashboard - Tombol Beli](tampilan2.png)
+![Halaman Dashboard - Tombol Beli](tampilan3.png)
 *Halaman Dashboard - Tambah Produk*
-![Halaman Dashboard - Tambah Produk](tampilan3.png)
+![Halaman Dashboard - Tambah Produk](tampilan4.png)
+*Halaman Dashboard - Produk Bertambah*
+![Halaman Dashboard - Produk Bertambah](tampilan5.png)
+*Halaman Dashboard - Tombol Hapus*
+![Halaman Dashboard - Tombol Hapus](tampilan6.png)
+*Halaman Dashboard - Tombol Hapus*
+![Halaman Dashboard - Tombol Hapus](tampilan6.png)
+*Halaman Dashboard - Produk Berkurang*
+![Halaman Dashboard - Produk Berkurang](tampilan7.png)
+*Halaman Dashboard - Responsive*
+![Halaman Dashboard - Responsive](tampilan9.png)
+*Halaman Login - Responsive*
+![Halaman Login - Responsive](tampilan8.png)
+
+
 
 ### 4. Refleksi Refactoring
 •⁠  ⁠*Pertanyaan:* Kenapa kita harus memisahkan kode menjadi Model, View, dan Controller (MVC)? Kenapa tidak pakai cara lama seperti di ⁠ spaghetti.php ⁠ saja?

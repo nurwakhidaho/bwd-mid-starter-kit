@@ -64,10 +64,28 @@ Tugas Anda adalah memindahkan fungsi-fungsinya ke tempat yang benar di folder `a
 •⁠  ⁠*Target Pengguna:* Masyarakat Muslim Indonesia usia 18-45 tahun yang melek digital dan mencari produk serta layanan (seperti umrah) yang sesuai syari'at.
 
 ### 2. Penjelasan Fitur JavaScript (DOM)
-•⁠  ⁠*Apa yang Anda buat?* Saya membuat fitur manipulasi DOM pada halaman dashboard. Ketika pengguna mengklik tombol "Beli", fungsi javascript akan menangkap ID produk tersebut dan secara otomatis mengurangi angka stok di tabel secara real-time tanpa perlu refresh halaman.
+•⁠  ⁠*Apa yang Anda buat?* Saya fokus mengembangkan fitur yang interaktif pada halaman dashboard agar manajemen barang jadi lebih efisien dan responsif. Beberapa hal yang saya implementasikan adalah:
+
+* Fitur Transaksi Real-Time:
+    Saya membuat fitur manipulasi DOM pada halaman dashboard. Ketika pengguna mengklik tombol "Beli", fungsi javascript akan menangkap ID produk tersebut dan secara otomatis mengurangi angka stok di tabel secara real-time tanpa perlu refresh halaman. Hal ini memastikan proses belanja di Bazaar terasa lancar bagi pengguna.
+
+* Input Produk Dinamis: 
+    Saya juga menambahkan fitur untuk menambah inventaris baru secara instan. Melalui form yang disediakan, Admin dapat memasukkan produk baru ke dalam tabel katalog tanpa jeda waktu, sehingga update barang bisa dilakukan dengan lebih fleksibel sesuai kebutuhan pasar.
+
+* Manajemen Katalog: 
+    Terdapat fitur hapus baris yang memudahkan pengelola untuk merapikan daftar inventaris. Jika ada produk yang sudah tidak relevan atau habis, Admin bisa langsung menghilangkannya dari tampilan antarmuka secara praktis.
+
+*Tujuan:* Memastikan dashboard Bazaar memiliki performa yang cepat dan pengalaman pengguna yang modern, di mana setiap perubahan data bisa langsung terlihat tanpa hambatan loading halaman.
 
 ### 3. Entity Relationship Diagram (ERD)
+*ERD Bazaar*
 ![ERD Bazaar](erd-bazaar.png)
+*Halaman Login*
+![Halaman Login](tampilan1.png)
+*Halaman Dashboard - Tombol Beli*
+![Halaman Dashboard - Tombol Beli](tampilan2.png)
+*Halaman Dashboard - Tambah Produk*
+![Halaman Dashboard - Tambah Produk](tampilan3.png)
 
 ### 4. Refleksi Refactoring
 •⁠  ⁠*Pertanyaan:* Kenapa kita harus memisahkan kode menjadi Model, View, dan Controller (MVC)? Kenapa tidak pakai cara lama seperti di ⁠ spaghetti.php ⁠ saja?

@@ -1,47 +1,41 @@
 <?php
+
 namespace App\Controllers;
 
 class Auth extends BaseController
 {
     public function index()
     {
-        // Jika sudah login, tendang ke dashboard
+        // Jika sudah login, paksa ke dashboard
         if (session()->get('isLoggedIn')) {
-            return redirect()->to('/dashboard');
+            return redirect()->to(base_url('index.php/dashboard'));
         }
-        return view('login_view'); // Tampilkan halaman login
+        return view('login_view');
     }
 
     public function process()
     {
-        // TODO: TUGAS MAHASISWA!
-        // 1. Ambil 'username' dan 'password' menggunakan $this->request->getPost()
-        // 2. Buat logika IF: Jika username == 'admin' dan password == 'bisnis123'
-        // 3. Jika BENAR: Set session 'isLoggedIn' = true, lalu redirect ke '/dashboard'
-        // 4. Jika SALAH: Redirect kembali ke halaman '/'
         $username = $this->request->getPost('username');
         $password = $this->request->getPost('password');
 
-        // Kredensial statis sesuai tutorial
+        // Kredensial sesuai instruksi: admin / bisnis123
         if ($username === 'admin' && $password === 'bisnis123') {
             session()->set([
                 'isLoggedIn' => true,
                 'username'   => $username,
-                'role'       => 'Administrator',
+                'role'       => 'Administrator'
             ]);
-            return redirect()->to('/dashboard');
+            // Redirect absolut ke dashboard untuk menghindari bug XAMPP
+            return redirect()->to(base_url('index.php/dashboard'));
         } else {
-            session()->setFlashdata('error', 'Username atau Password salah!');
-            return redirect()->to('/');
+            session()->setFlashdata('error', 'Identitas atau Kata Sandi salah!');
+            return redirect()->to(base_url('index.php/'));
         }
     }
 
     public function logout()
     {
-        // TODO: TUGAS MAHASISWA!
-        // 1. Hancurkan session menggunakan session()->destroy()
-        // 2. Redirect ke halaman '/'
         session()->destroy();
-        return redirect()->to('/');
+        return redirect()->to(base_url('index.php/'));
     }
 }

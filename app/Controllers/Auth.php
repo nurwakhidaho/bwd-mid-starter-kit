@@ -2,11 +2,12 @@
 
 namespace App\Controllers;
 
+use App\Models\PenggunaModel;
+
 class Auth extends BaseController
 {
     public function index()
     {
-        // Jika sudah login, paksa ke dashboard
         if (session()->get('isLoggedIn')) {
             return redirect()->to(base_url('index.php/dashboard'));
         }
@@ -18,19 +19,20 @@ class Auth extends BaseController
         $username = $this->request->getPost('username');
         $password = $this->request->getPost('password');
 
-        // Kredensial sesuai instruksi: admin / bisnis123
-        if ($username === 'admin' && $password === 'bisnis123') {
+        $model    = new PenggunaModel();
+        $pengguna = $model->cariPengguna($username, $password);
+
+        if ($pengguna) {
             session()->set([
                 'isLoggedIn' => true,
-                'username'   => $username,
-                'role'       => 'Administrator'
+                'username'   => $pengguna['username'],
+                'role'       => $pengguna['role'],
             ]);
-            // Redirect absolut ke dashboard untuk menghindari bug XAMPP
             return redirect()->to(base_url('index.php/dashboard'));
-        } else {
-            session()->setFlashdata('error', 'Identitas atau Kata Sandi salah!');
-            return redirect()->to(base_url('index.php/'));
         }
+
+        session()->setFlashdata('error', 'Identitas atau Kata Sandi salah!');
+        return redirect()->to(base_url('index.php/'));
     }
 
     public function logout()

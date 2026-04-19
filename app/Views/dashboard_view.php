@@ -1,3 +1,9 @@
+<?php
+/** @var string $nama_startup */
+/** @var string $tagline */
+/** @var string $username */
+/** @var array  $products */
+?>
 <!DOCTYPE html>
 <html lang="id">
 <head>
@@ -63,7 +69,7 @@
 
         .p-content { padding: 20px; flex-grow: 1; text-align: center; }
         .p-cat { font-size: 0.65rem; font-weight: 800; color: var(--accent-gold); text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: 8px; }
-        .p-title { font-size: 0.95rem; font-weight: 700; color: #1a1a1a; height: 2.8em; overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; margin-bottom: 12px; line-height: 1.4; }
+        .p-title { font-size: 0.95rem; font-weight: 700; color: #1a1a1a; height: 2.8em; overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2; line-clamp: 2 ; -webkit-box-orient: vertical; margin-bottom: 12px; line-height: 1.4; }
         .p-price { font-size: 1.2rem; font-weight: 800; color: var(--p-green); }
         
         .card-footer-shopee { padding: 15px 20px 25px; background: #fff; display: flex; gap: 10px; }
@@ -84,8 +90,44 @@
         #form-box { display: none; background: white; padding: 35px; border-radius: 24px; margin-bottom: 40px; border: 2px dashed var(--accent-gold); box-shadow: 0 20px 50px rgba(0,0,0,0.05); }
         
         .btn-success-feedback { background: var(--accent-gold) !important; color: var(--p-green) !important; }
+        .flash-msg {
+        position: fixed; top: 80px; right: 24px; z-index: 9999;
+        background: white; border-left: 4px solid #1B4332;
+        border-radius: 14px; padding: 16px 24px;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        font-weight: 600; font-size: 0.9rem; color: #1B4332;
+        animation: slideIn 0.4s ease;
+        }
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateX(40px); }
+            to   { opacity: 1; transform: translateX(0); }
+        }
+        .search-box {
+            background: white; border: 1.5px solid #eee;
+            border-radius: 14px; padding: 12px 20px;
+            font-size: 0.9rem; width: 100%; max-width: 300px;
+            transition: 0.3s;
+        }
+        .search-box:focus {
+            outline: none; border-color: #1B4332;
+            box-shadow: 0 0 0 3px rgba(27,67,50,0.08);
+        }
+        .btn-edit {
+            background: #fff; color: #1B4332; border: 1px solid #d4f0e0;
+            padding: 12px 15px; border-radius: 12px; transition: 0.3s;
+        }
+        .btn-edit:hover { background: #1B4332; color: white; }
+        .stat-badge {
+            background: rgba(255,255,255,0.15); border-radius: 14px;
+            padding: 16px 24px; backdrop-filter: blur(8px);
+            border: 1px solid rgba(255,255,255,0.2);
+            text-align: center;
+        }
+        .stat-badge .num { font-size: 1.8rem; font-weight: 800; color: white; }
+        .stat-badge .lbl { font-size: 0.75rem; color: rgba(255,255,255,0.7); text-transform: uppercase; letter-spacing: 1px; }
     </style>
 </head>
+
 <body>
 
     <nav class="navbar navbar-expand-lg sticky-top">
@@ -104,32 +146,30 @@
                 <h2 class="fw-800 mb-2">Manajemen Inventaris</h2>
                 <p class="mb-0 opacity-75 fs-6"><?= $tagline; ?></p>
             </div>
-            <button class="btn btn-light fw-bold text-success rounded-pill px-5 py-3 shadow-lg border-0" onclick="toggleForm()">
-                <i class="fas fa-plus-circle me-2"></i> Tambah Koleksi Baru
-            </button>
-        </div>
-
-        <div id="form-box">
-            <h5 class="fw-bold text-success mb-4"><i class="fas fa-edit me-2"></i>Daftarkan Produk Baru</h5>
-            <div class="row g-3">
-                <div class="col-md-4"><input type="text" id="nama" class="form-control form-control-lg border-0 bg-light rounded-4 px-4 fs-6" placeholder="Nama Koleksi"></div>
-                <div class="col-md-2"><input type="text" id="kategori" class="form-control form-control-lg border-0 bg-light rounded-4 px-4 fs-6" placeholder="Kategori"></div>
-                <div class="col-md-2">
-                    <select id="akad" class="form-select form-select-lg border-0 bg-light rounded-4 px-4 fs-6">
-                        <option value="Murabahah">Murabahah</option>
-                        <option value="Ijarah">Ijarah</option>
-                    </select>
+            <div class="d-flex gap-3 flex-wrap align-items-center">
+                <div class="stat-badge">
+                    <div class="num"><?= count($products); ?></div>
+                    <div class="lbl">Total Produk</div>
                 </div>
-                <div class="col-md-2"><input type="number" id="harga" class="form-control form-control-lg border-0 bg-light rounded-4 px-4 fs-6" placeholder="Nilai (Rp)"></div>
-                <div class="col-md-2"><button class="btn btn-success btn-lg w-100 fw-bold rounded-4 shadow-sm" onclick="tambahData()">Simpan Data</button></div>
+                <div class="stat-badge">
+                    <div class="num"><?= array_sum(array_column($products, 'stock')); ?></div>
+                    <div class="lbl">Total Stok</div>
+                </div>
+                <a href="<?= base_url('index.php/tambah') ?>" class="btn btn-light fw-bold text-success rounded-pill px-5 py-3 shadow-lg border-0">
+                    <i class="fas fa-plus-circle me-2"></i> Tambah Koleksi Baru
+                </a>
             </div>
         </div>
 
-        <div class="d-flex justify-content-between align-items-center mb-4">
-            <h5 class="fw-bold m-0 text-uppercase small letter-spacing-2" style="color: #666;">Katalog Koleksi Bazaar</h5>
-            <span class="badge bg-white text-dark border-0 py-2 px-4 rounded-pill shadow-sm">
-                <i class="fas fa-crown text-warning me-2"></i> <span id="sku-count" class="fw-bold text-success">0</span> SKU Premium
-            </span>
+        <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-3">
+            <h5 class="fw-bold m-0 text-uppercase small" style="color: #666; letter-spacing: 2px;">Katalog Koleksi Bazaar</h5>
+            <div class="d-flex align-items-center gap-3">
+                <input type="text" id="searchInput" class="search-box" placeholder="🔍  Cari produk...">
+                <span class="badge bg-white text-dark border-0 py-2 px-4 rounded-pill shadow-sm">
+                    <i class="fas fa-crown text-warning me-2"></i>
+                    <span id="sku-count" class="fw-bold text-success">0</span> SKU Premium
+                </span>
+            </div>
         </div>
 
         <div class="row row-cols-2 row-cols-md-3 row-cols-lg-4 g-4" id="gridKatalog">
@@ -154,7 +194,14 @@
                     </div>
                     <div class="card-footer-shopee">
                         <button class="btn-beli"><i class="fas fa-shopping-bag me-2"></i> Beli</button>
-                        <button class="btn-hapus"><i class="fas fa-trash-alt"></i></button>
+                        <a href="<?= base_url('index.php/edit/' . $p['id']) ?>" class="btn-edit">
+                            <i class="fas fa-pen"></i>
+                        </a>
+                        <a href="<?= base_url('index.php/hapus/' . $p['id']) ?>"
+                        class="btn-hapus"
+                        onclick="return confirm('Hapus produk ini secara permanen?')">
+                            <i class="fas fa-trash-alt"></i>
+                        </a>
                     </div>
                 </div>
             </div>
@@ -187,6 +234,8 @@
             const k = document.getElementById('kategori').value || 'Koleksi';
             const a = document.getElementById('akad').value;
             const h = document.getElementById('harga').value;
+        // Ambil nilai stock dari input baru, default 0 jika dikosongkan
+            const s = document.getElementById('stock').value || 0;
 
             if(!n || !h) return alert("Harap isi nama koleksi dan nilainya.");
 
@@ -204,7 +253,7 @@
                         <div class="p-cat">${k}</div>
                         <div class="p-title">${n}</div>
                         <div class="p-price">Rp ${parseInt(h).toLocaleString('id-ID')}</div>
-                        <div class="mt-3 text-muted small">Persediaan: <strong class="stok-val text-dark">10</strong> Unit</div>
+                        <div class="mt-3 text-muted small">Persediaan: <strong class="stok-val text-dark">${s}</strong> Unit</div>  
                     </div>
                     <div class="card-footer-shopee">
                         <button class="btn-beli"><i class="fas fa-shopping-bag me-2"></i> Beli</button>
@@ -222,6 +271,7 @@
 
             document.getElementById('nama').value = '';
             document.getElementById('harga').value = '';
+            document.getElementById('stock').value = ''; // reset input stock juga
         }
 
         function attachEvents() {
@@ -265,5 +315,32 @@
         }
         attachEvents();
     </script>
+
+    <?php if (session()->getFlashdata('success')): ?>
+    <div class="flash-msg" id="flashMsg">
+        <i class="fas fa-check-circle me-2"></i><?= session()->getFlashdata('success'); ?>
+    </div>
+
+    <script>
+        setTimeout(() => {
+            const el = document.getElementById('flashMsg');
+            if (el) { el.style.opacity = '0'; el.style.transition = '0.5s'; setTimeout(() => el.remove(), 500); }
+        }, 3000);
+    </script>
+    <?php endif; ?>
+
+    <script>
+        document.getElementById('searchInput').addEventListener('input', function() {
+            const keyword = this.value.toLowerCase();
+            document.querySelectorAll('.product-item').forEach(item => {
+                const nama = item.querySelector('.p-title').innerText.toLowerCase();
+                const kat  = item.querySelector('.p-cat').innerText.toLowerCase();
+                item.style.display = (nama.includes(keyword) || kat.includes(keyword)) ? '' : 'none';
+            });
+            document.getElementById('sku-count').innerText =
+                [...document.querySelectorAll('.product-item')].filter(i => i.style.display !== 'none').length;
+        });
+    </script>
+
 </body>
 </html>

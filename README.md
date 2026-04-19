@@ -79,7 +79,7 @@ Tugas Anda adalah memindahkan fungsi-fungsinya ke tempat yang benar di folder `a
 
 ### 3. Entity Relationship Diagram (ERD)
 *ERD Bazaar*
-![ERD Bazaar](erd-bazaar.png)
+![ERD Bazaar](erd-bazaar-updated.png)
 *Halaman Login*
 ![Halaman Login](tampilan1.png)
 *Halaman Dashboard Awal*

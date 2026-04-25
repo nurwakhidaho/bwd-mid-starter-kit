@@ -1,8 +1,11 @@
 <?php
 
+
 namespace App\Models;
 
+
 use CodeIgniter\Model;
+
 
 class PenggunaModel extends Model
 {
@@ -11,16 +14,19 @@ class PenggunaModel extends Model
     protected $useAutoIncrement = true;
     protected $returnType       = 'array';
 
+
     protected $allowedFields = [
         'username',
         'password',
         'role'
     ];
 
-    public function cariPengguna(string $username, string $password): ?array
+
+    // Cari pengguna berdasarkan username saja
+    // Password dicek terpisah di Controller menggunakan hash SHA256
+    public function cariPengguna(string $username): ?array
     {
-        return $this->where('username', $username)
-                    ->where('password', $password)
-                    ->first();
+        return $this->where('username', $username)->first();
     }
 }
+

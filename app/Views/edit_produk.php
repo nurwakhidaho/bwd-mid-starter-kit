@@ -88,6 +88,11 @@
         </div>
         <p class="page-sub">Ubah detail produk yang sudah terdaftar di katalog Bazaar.</p>
 
+        <?php if (session()->getFlashdata('success')): ?>
+            <div class="alert alert-success"><?= session()->getFlashdata('success') ?></div>
+        <?php endif; ?>
+
+
         <form action="<?= base_url('index.php/update/' . $produk['id']) ?>" method="post">
             <?= csrf_field() ?>
 

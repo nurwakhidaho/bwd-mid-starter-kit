@@ -1,8 +1,11 @@
 <?php
 
+
 namespace App\Controllers;
 
+
 use App\Models\PenggunaModel;
+
 
 class Auth extends BaseController
 {
@@ -14,15 +17,26 @@ class Auth extends BaseController
         return view('login_view');
     }
 
+
     public function process()
     {
-        $username = $this->request->getPost('username');
-        $password = $this->request->getPost('password');
+        $username      = $this->request->getPost('username');
+        $passwordInput = $this->request->getPost('password');
+
+
+        // Hash password yang diketik user menggunakan SHA256
+        // Hasilnya akan sama persis dengan hash yang tersimpan di database
+        $passwordHashed = hash('sha256', $passwordInput);
+
 
         $model    = new PenggunaModel();
-        $pengguna = $model->cariPengguna($username, $password);
+        // Ambil data pengguna berdasarkan username saja
+        $pengguna = $model->cariPengguna($username);
 
-        if ($pengguna) {
+
+        // Cek: apakah user ada DAN hash password cocok?
+        if ($pengguna && $passwordHashed === $pengguna['password']) {
+            // Login berhasil — buat session ID Card
             session()->set([
                 'isLoggedIn' => true,
                 'username'   => $pengguna['username'],
@@ -31,9 +45,12 @@ class Auth extends BaseController
             return redirect()->to(base_url('index.php/dashboard'));
         }
 
-        session()->setFlashdata('error', 'Identitas atau Kata Sandi salah!');
+
+        // Login gagal — kirim pesan error
+        session()->setFlashdata('error', 'Username atau Password salah!');
         return redirect()->to(base_url('index.php/'));
     }
+
 
     public function logout()
     {
@@ -41,3 +58,4 @@ class Auth extends BaseController
         return redirect()->to(base_url('index.php/'));
     }
 }
+

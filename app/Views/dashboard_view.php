@@ -73,13 +73,14 @@
         .p-price { font-size: 1.2rem; font-weight: 800; color: var(--p-green); }
         
         .card-footer-shopee { padding: 15px 20px 25px; background: #fff; display: flex; gap: 10px; }
-        .btn-beli { 
+        .btn-lihat { 
             background: linear-gradient(135deg, var(--p-green) 0%, #2D6A4F 100%); color: white; border: none; flex-grow: 1; 
             border-radius: 12px; font-weight: 700; font-size: 0.85rem; padding: 12px;
             transition: all 0.3s ease; box-shadow: 0 4px 12px rgba(27,67,50,0.15);
+            text-decoration: none; display: inline-flex; align-items: center; justify-content: center;
         }
-        .btn-beli:hover { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(27,67,50,0.25); }
-        .btn-beli:active { transform: scale(0.95); }
+        .btn-lihat:hover { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(27,67,50,0.25); color: white; }
+        .btn-lihat:active { transform: scale(0.95); }
 
         .btn-hapus { 
             background: #fff; color: #ff4d4d; border: 1px solid #ffeded; 
@@ -193,7 +194,16 @@
                         </div>
                     </div>
                     <div class="card-footer-shopee">
-                        <button class="btn-beli"><i class="fas fa-shopping-bag me-2"></i> Beli</button>
+                        <button class="btn-lihat"
+                            data-bs-toggle="modal"
+                            data-bs-target="#modalProduk"
+                            data-name="<?= $p['name']; ?>"
+                            data-category="<?= $p['category']; ?>"
+                            data-akad="<?= $p['akad']; ?>"
+                            data-price="<?= $p['price']; ?>"
+                            data-stock="<?= $p['stock'] ?? 0; ?>">
+                            <i class="fas fa-eye me-2"></i> Lihat Produk
+                        </button>
                         <a href="<?= base_url('index.php/edit/' . $p['id']) ?>" class="btn-edit">
                             <i class="fas fa-pen"></i>
                         </a>
@@ -256,7 +266,16 @@
                         <div class="mt-3 text-muted small">Persediaan: <strong class="stok-val text-dark">${s}</strong> Unit</div>  
                     </div>
                     <div class="card-footer-shopee">
-                        <button class="btn-beli"><i class="fas fa-shopping-bag me-2"></i> Beli</button>
+                        <button class="btn-lihat"
+                            data-bs-toggle="modal"
+                            data-bs-target="#modalProduk"
+                            data-name="${n}"
+                            data-category="${k}"
+                            data-akad="${a}"
+                            data-price="${h}"
+                            data-stock="${s}">
+                            <i class="fas fa-eye me-2"></i> Lihat Produk
+                        </button>
                         <button class="btn-hapus"><i class="fas fa-trash-alt"></i></button>
                     </div>
                 </div>
@@ -275,30 +294,6 @@
         }
 
         function attachEvents() {
-            document.querySelectorAll('.btn-beli').forEach(btn => {
-                btn.onclick = function() {
-                    const card = this.closest('.card-shopee');
-                    const stokEl = card.querySelector('.stok-val');
-                    let val = parseInt(stokEl.innerText);
-                    
-                    if(val > 0) {
-                        stokEl.innerText = val - 1;
-                        this.classList.add('btn-success-feedback');
-                        const oldHTML = this.innerHTML;
-                        this.innerHTML = '<i class="fas fa-check me-2"></i> Berhasil';
-                        
-                        setTimeout(() => {
-                            this.classList.remove('btn-success-feedback');
-                            this.innerHTML = oldHTML;
-                        }, 1200);
-                    } else {
-                        this.innerHTML = 'Habis';
-                        this.disabled = true;
-                        this.style.background = '#e0e0e0';
-                    }
-                };
-            });
-
             document.querySelectorAll('.btn-hapus').forEach(btn => {
                 btn.onclick = function() {
                     if(confirm("Hapus koleksi ini secara permanen?")) {
@@ -328,6 +323,47 @@
         }, 3000);
     </script>
     <?php endif; ?>
+
+    <!-- Modal Lihat Produk -->
+    <div class="modal fade" id="modalProduk" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content" style="border-radius: 20px; border: none; overflow: hidden;">
+                <div class="modal-header border-0 pb-0 px-4 pt-4">
+                    <span id="m-akad" style="background:#f1f5f3; color:#1B4332; border:1px solid #D4AF37; font-size:0.7rem; font-weight:800; padding:6px 14px; border-radius:30px;"></span>
+                    <button type="button" class="btn-close ms-auto" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body px-4 pb-4 pt-3">
+                    <h4 id="m-name" class="fw-bold mb-1"></h4>
+                    <p id="m-category" class="text-muted small mb-4"></p>
+                    <div class="row g-3">
+                        <div class="col-6">
+                            <div style="background:#f8faf9; border-radius:14px; padding:16px;">
+                                <div style="font-size:0.7rem; font-weight:700; color:#aaa; text-transform:uppercase; letter-spacing:1px; margin-bottom:4px;">Harga</div>
+                                <div id="m-price" style="font-size:1.4rem; font-weight:800; color:#1B4332;"></div>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div style="background:#f8faf9; border-radius:14px; padding:16px;">
+                                <div style="font-size:0.7rem; font-weight:700; color:#aaa; text-transform:uppercase; letter-spacing:1px; margin-bottom:4px;">Stok</div>
+                                <div id="m-stock" style="font-size:1.4rem; font-weight:800; color:#1B4332;"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('modalProduk').addEventListener('show.bs.modal', function(e) {
+            const btn = e.relatedTarget;
+            document.getElementById('m-akad').innerText     = btn.dataset.akad;
+            document.getElementById('m-name').innerText     = btn.dataset.name;
+            document.getElementById('m-category').innerText = btn.dataset.category;
+            document.getElementById('m-price').innerText    = 'Rp ' + parseInt(btn.dataset.price).toLocaleString('id-ID');
+            document.getElementById('m-stock').innerText    = btn.dataset.stock + ' Unit';
+        });
+    </script>
 
     <script>
         document.getElementById('searchInput').addEventListener('input', function() {

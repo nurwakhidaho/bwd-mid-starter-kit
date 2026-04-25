@@ -1,55 +1,3 @@
-# 🚀 UTS: Pengembangan Aplikasi Web (Refactoring ke MVC)
-
-## ⚠️ PERHATIAN PENTING SEBELUM MENGERJAKAN!
-Tujuan utama ujian ini adalah *memperbaiki kode yang berantakan* (Legacy Code) menjadi rapi di dalam framework CodeIgniter 4. 
-
-*ATURAN MAIN:*
-
-1.⁠ ⁠Anda *DILARANG* hanya menyalin data dari file lama
-
-2.⁠ ⁠Anda *WAJIB* menyesuaikan data barang/jasa di dalam Model sesuai dengan *Ide Startup* Anda masing-masing (yang anda tentukan sendiri).
-
-3.⁠ ⁠Jika Startup Anda adalah "Kedai Kopi", maka data yang tampil harus Menu Kopi, bukan "Laptop Pro".
-
----
-
-## 🛠️ LANGKAH-LANGKAH PENGERJAAN
-
-### Langkah 1: Pahami Masalah (Legacy Code)
-Buka folder ⁠`legacy_code/spaghetti.php`⁠. Lihat betapa berantakannya kode tersebut (Spaghetti Code). 
-
-Tugas Anda adalah memindahkan fungsi-fungsinya ke tempat yang benar di folder `app/`. (DONE)
-
-### Langkah 2: Kelola Data (Model)
-•⁠  ⁠Buka `app/Models/ProductModel.php`.
-
-•⁠  ⁠*TUGAS:* Ganti isi array di dalam fungsi `getDummyData()` dengan data yang sesuai dengan bisnis Startup Anda (Minimal 3 data).
-
-•⁠  ⁠Contoh: Jika startup Anda jasa cuci sepatu, maka datanya adalah: `Cuci Deep Clean`⁠, `Un-yellowing`, dll. (DONE)
-
-### Langkah 3: Logika Login & Logout (Controller Auth)
-•⁠  ⁠Buka `app/Controllers/Auth.php`.
-
-•⁠  ⁠Cari tanda `// TODO: TUGAS MAHASISWA!`.
-
-•⁠  ⁠Selesaikan logika proses login dan logout menggunakan Session CodeIgniter 4.
-
-### Langkah 4: Proteksi Halaman (Controller Dashboard)
-•⁠  ⁠Buka `app/Controllers/Dashboard.php`.
-
-•⁠  ⁠Cari tanda `// TODO: TUGAS MAHASISWA!`.
-
-•⁠  ⁠Tambahkan kode untuk mengecek apakah user sudah login atau belum. Jika belum login, user tidak boleh bisa melihat dashboard!
-
-### Langkah 5: Interaktivitas (View & JavaScript)
-•⁠  ⁠Buka `app/Views/dashboard_view.php`.
-
-•⁠  ⁠Di bagian paling bawah, ada tag `<script>`.
-
-•⁠  ⁠*TUGAS:* Buatlah fitur JavaScript sederhana (DOM Manipulation). Contoh: Ketika tombol "Beli" diklik, jumlah stok di baris tersebut berkurang secara otomatis di layar.
-
----
-
 ## 📝 LEMBAR JAWABAN (WAJIB DIISI)
 
 *Nama:* Nurwakhidah Oktaviani
@@ -82,23 +30,23 @@ Tugas Anda adalah memindahkan fungsi-fungsinya ke tempat yang benar di folder `a
 ![ERD Bazaar](erd-bazaar-updated.png)
 *Halaman Login*
 ![Halaman Login](tampilan1.png)
-*Halaman Dashboard Awal*
-![Halaman Dashboard Awal](tampilan2.png)
-*Halaman Dashboard - Form Tambah Produk*
-![Halaman Dashboard - Form Tambah Produk](tampilan3.png)
-*Halaman Dashboard - Berhasil Tambah Produk*
-![Halaman Dashboard - Berhasil Tambah Produk](tampilan4.png)
+*Halaman Dashboard*
+![Halaman Dashboard](tampilan2.png)
+![Halaman Dashboard](tampilan3.png)
+![Halaman Dashboard](tampilan4.png)
+*Halaman Form Tambah Produk*
+![Halaman Form Tambah Produk](tampilan5.png)
+*Halaman Dashboard - Edit Produk*
+![Halaman Dashboard - Edit Produk](tampilan6.png)
+*Halaman Dashboard - Delete Produk*
+![Halaman Dashboard - Delete Produk](tampilan7.png)
+*Halaman Dashboard - Cari Produk*
+![Halaman Dashboard - Cari Produk](tampilan8.png)
 *Halaman Database PhpMyAdmin*
-![Halaman Database PhpMyAdmin](tampilan5.png)
+![Halaman Database PhpMyAdmin](tampilan9.png)
 
 
 ### 4. Refleksi Refactoring
 •⁠  ⁠*Pertanyaan:* Kenapa kita harus memisahkan kode menjadi Model, View, dan Controller (MVC)? Kenapa tidak pakai cara lama seperti di ⁠ spaghetti.php ⁠ saja?
 
 •⁠  ⁠*Jawaban:* Menurut saya memisahkan kode dengan pola MVC ini agar tugas-tugas lebih terorganisir dan tidak terjadi tumpang tindih. Kalau tetap pakai cara lama (spaghetti code), semua kodenya akan menumpuk di satu tempat dan itu sangat membingungkan saat aplikasi mulai besar atau bisnis mulai scale up. Bisa diibaratkan seperti kita mencari satu barang di gudang yang berantakan. Dengan memakai pola MVC, maka setiap bagian punya tanggungjawab masing-masing. Pimisahan ini juga membuat code lebih rapi, mudah diperbaiki jika ada error dan pastinya lebih siap untuk dikembangkan lebih besar.
-
----
-Kumpulkan tugas dengan cara mengirimkan file zip berisi BWD-MID-STARTER-KIT yang sudah dimodifikasi
-
-
-[def]: erd_bazaar.png

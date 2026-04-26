@@ -13,6 +13,8 @@
 
 •⁠  ⁠*Tentang Prototipe Ini:* Prototipe ini merupakan panel admin Bazaar yang berfokus pada sistem manajemen inventaris, sebagai fondasi backend sebelum tampilan sisi pembeli (customer-facing marketplace) dikembangkan.
 
+Tabel pengguna dan produk sudah diimplementasikan pada prototipe ini. Tabel kategori, transaksi, dan transaksi_detail merupakan rancangan untuk pengembangan berikutnya seiring Bazaar berkembang menjadi marketplace penuh.
+
 ### 2. Penjelasan Fitur JavaScript (DOM)
 •⁠  ⁠*Apa yang Anda buat?* Saya mengembangkan beberapa fitur interaktif berbasis manipulasi DOM pada halaman dashboard untuk mendukung proses manajemen inventaris produk halal secara langsung di antarmuka, tanpa perlu reload halaman. Berikut detail implementasinya:
 

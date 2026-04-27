@@ -39,11 +39,11 @@
             <?= csrf_field() ?>
             <div class="mb-3 text-start">
                 <label class="form-label fw-bold small text-muted">USERNAME</label>
-                <input type="text" name="username" class="form-control" placeholder="admin" required>
+                <input type="text" name="username" class="form-control" placeholder="Masukkan Nama Pengguna" required>
             </div>
             <div class="mb-4 text-start">
                 <label class="form-label fw-bold small text-muted">PASSWORD</label>
-                <input type="password" name="password" class="form-control" placeholder="bisnis123" required>
+                <input type="password" name="password" class="form-control" placeholder="Masukkan Password" required>
             </div>
             <button type="submit" class="btn btn-login shadow">MASUK KE DASHBOARD</button>
         </form>

@@ -26,6 +26,11 @@
             background: var(--bg);
         }
 
+        /* Memastikan class fw-800 tersedia jika belum terdefinisi di CSS global */
+        .fw-800 {
+            font-weight: 800 !important;
+        }
+
         .form-card {
             background: white;
             border-radius: 24px;
@@ -74,7 +79,7 @@
 
     <nav class="navbar navbar-expand-lg sticky-top" style="background:white;box-shadow:0 2px 10px rgba(0,0,0,0.05);">
         <div class="container">
-            <a class="navbar-brand fw-800" style="color:var(--p-green);" href="<?= base_url('index.php/dashboard') ?>">
+            <a class="navbar-brand fw-800" style="color:var(--p-green); letter-spacing: -1px;" href="<?= base_url('index.php/dashboard') ?>">
                 <i class="fas fa-gem me-2" style="color:var(--accent-gold);"></i> BAZAAR
             </a>
             <div class="ms-auto">

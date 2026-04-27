@@ -311,7 +311,7 @@
                             <div class="p-title"><?= $p['name']; ?></div>
                             <div class="p-price">Rp <?= number_format($p['price'], 0, ',', '.'); ?></div>
                             <div class="mt-3 text-muted small">
-                                Persediaan: <strong class="text-dark"><?= $p['stock'] ?? 0; ?></strong> Unit
+                                Stok: <strong class="text-dark"><?= $p['stock'] ?? 0; ?></strong>
                             </div>
                         </div>
                         <div class="card-footer-shopee">
@@ -342,7 +342,7 @@
                     <h3 id="m-price" class="text-success fw-800 mb-4"></h3>
                     <hr>
                     <div class="d-flex justify-content-between align-items-center mt-3">
-                        <span class="text-muted">Status Stok:</span>
+                        <span class="text-muted">Jumlah Stok:</span>
                         <span id="m-stock" class="badge bg-dark px-3 py-2"></span>
                     </div>
                     <button type="button" class="btn btn-success w-100 mt-4 py-3 fw-bold rounded-3" data-bs-dismiss="modal">Tutup</button>
@@ -368,7 +368,8 @@
             document.getElementById('m-name').innerText = btn.dataset.name;
             document.getElementById('m-category').innerText = btn.dataset.category;
             document.getElementById('m-price').innerText = 'Rp ' + parseInt(btn.dataset.price).toLocaleString('id-ID');
-            document.getElementById('m-stock').innerText = btn.dataset.stock + ' Unit';
+            // PERUBAHAN 3: Hapus teks '+ Unit' di JavaScript modal
+            document.getElementById('m-stock').innerText = btn.dataset.stock;
         });
 
         // Logika Pencarian (Filter)

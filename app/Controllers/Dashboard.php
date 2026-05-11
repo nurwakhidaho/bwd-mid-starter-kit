@@ -35,13 +35,17 @@ class Dashboard extends BaseController
     public function simpan()
     {
         $model = new ProductModel();
-        $fileGambar = $this->request->getFile('gambar');
+
+        // PERBAIKAN: Nama 'image' harus sama dengan <input name="image"> di View
+        $fileGambar = $this->request->getFile('image');
         $namaGambar = null;
 
         // Logika upload jika ada file
         if ($fileGambar && $fileGambar->isValid() && !$fileGambar->hasMoved()) {
             $namaGambar = $fileGambar->getRandomName();
-            $fileGambar->move('uploads/produk/', $namaGambar);
+
+            // PERBAIKAN: Gunakan FCPATH agar masuk ke folder public/uploads/produk/
+            $fileGambar->move(FCPATH . 'uploads/produk/', $namaGambar);
         }
 
         $model->save([
@@ -50,7 +54,7 @@ class Dashboard extends BaseController
             'stock'    => $this->request->getPost('stock'),
             'akad'     => $this->request->getPost('akad'),
             'category' => $this->request->getPost('category'),
-            'image'    => $namaGambar, // Sesuai kolom database Anda
+            'image'    => $namaGambar,
         ]);
 
         session()->setFlashdata('success', 'Produk berhasil ditambahkan!');
@@ -67,8 +71,8 @@ class Dashboard extends BaseController
         $produk = $model->find($id);
 
         // Hapus file fisik gambar jika ada
-        if (!empty($produk['image']) && file_exists('uploads/produk/' . $produk['image'])) {
-            @unlink('uploads/produk/' . $produk['image']);
+        if (!empty($produk['image']) && file_exists(FCPATH . 'uploads/produk/' . $produk['image'])) {
+            @unlink(FCPATH . 'uploads/produk/' . $produk['image']);
         }
 
         $model->delete($id);
@@ -97,18 +101,18 @@ class Dashboard extends BaseController
         $model = new ProductModel();
         $produkLama = $model->find($id);
 
-        // Ambil file dari input name="gambar" di view
-        $fileGambar = $this->request->getFile('gambar');
+        // PERBAIKAN: Sesuaikan nama input menjadi 'image'
+        $fileGambar = $this->request->getFile('image');
         $namaGambarBaru = $produkLama['image'];
 
         // Cek jika user mengunggah file baru
         if ($fileGambar && $fileGambar->isValid() && !$fileGambar->hasMoved()) {
             $namaGambarBaru = $fileGambar->getRandomName();
-            $fileGambar->move('uploads/produk/', $namaGambarBaru);
+            $fileGambar->move(FCPATH . 'uploads/produk/', $namaGambarBaru);
 
             // Hapus file foto lama agar folder tidak penuh
-            if (!empty($produkLama['image']) && file_exists('uploads/produk/' . $produkLama['image'])) {
-                @unlink('uploads/produk/' . $produkLama['image']);
+            if (!empty($produkLama['image']) && file_exists(FCPATH . 'uploads/produk/' . $produkLama['image'])) {
+                @unlink(FCPATH . 'uploads/produk/' . $produkLama['image']);
             }
         }
 
@@ -118,10 +122,10 @@ class Dashboard extends BaseController
             'stock'    => $this->request->getPost('stock'),
             'akad'     => $this->request->getPost('akad'),
             'category' => $this->request->getPost('category'),
-            'image'    => $namaGambarBaru, // Tetap gunakan 'image' sesuai struktur DB
+            'image'    => $namaGambarBaru,
         ]);
 
         session()->setFlashdata('success', 'Produk berhasil diperbarui!');
         return redirect()->to(base_url('index.php/dashboard'));
     }
-}
+} 

@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="id">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -13,121 +14,158 @@
             --accent-gold: #D4AF37;
             --bg: #F8FAF9;
         }
-        body { font-family: 'Plus Jakarta Sans', sans-serif; background: var(--bg); color: #333; }
-        .navbar { background: white !important; box-shadow: 0 2px 10px rgba(0,0,0,0.05); }
-        .navbar-brand { font-weight: 800; color: var(--p-green) !important; font-size: 1.5rem; letter-spacing: -1px; }
+
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background: var(--bg);
+        }
+
+        .navbar {
+            background: white !important;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+        }
+
+        .navbar-brand {
+            font-weight: 800;
+            color: var(--p-green) !important;
+            font-size: 1.5rem;
+        }
+
         .form-card {
             background: white;
             border-radius: 24px;
             padding: 45px;
-            box-shadow: 0 15px 40px rgba(0,0,0,0.06);
-            border: 1px solid rgba(0,0,0,0.04);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.06);
             max-width: 680px;
             margin: 50px auto;
         }
-        .form-label { font-weight: 700; font-size: 0.85rem; color: #444; text-transform: uppercase; letter-spacing: 0.8px; }
-        .form-control, .form-select {
+
+        .form-label {
+            font-weight: 700;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+        }
+
+        .form-control,
+        .form-select {
             border: 1.5px solid #e8e8e8;
             border-radius: 14px;
             padding: 14px 18px;
-            font-size: 0.95rem;
-            transition: 0.3s;
             background: #fafafa;
         }
-        .form-control:focus, .form-select:focus {
-            border-color: var(--p-green);
-            box-shadow: 0 0 0 3px rgba(27,67,50,0.08);
-            background: white;
-        }
+
         .btn-simpan {
-            background: linear-gradient(135deg, var(--p-green) 0%, #2D6A4F 100%);
-            color: white; border: none; border-radius: 14px;
-            padding: 14px 40px; font-weight: 700; font-size: 1rem;
-            transition: 0.3s; box-shadow: 0 6px 20px rgba(27,67,50,0.2);
+            background: linear-gradient(135deg, var(--p-green), #2D6A4F);
+            color: white;
+            border: none;
+            border-radius: 14px;
+            padding: 14px 40px;
+            font-weight: 700;
             width: 100%;
         }
-        .btn-simpan:hover { transform: translateY(-2px); box-shadow: 0 10px 28px rgba(27,67,50,0.3); }
-        .btn-batal {
-            background: white; color: #666; border: 1.5px solid #e8e8e8;
-            border-radius: 14px; padding: 14px 40px; font-weight: 600;
-            font-size: 1rem; transition: 0.3s; width: 100%;
-            text-decoration: none; display: block; text-align: center;
+
+        /* Preview Gambar Style */
+        #imgPreview {
+            width: 100%;
+            max-height: 250px;
+            object-fit: contain;
+            border-radius: 14px;
+            display: none;
+            margin-top: 15px;
+            border: 1px dashed #ddd;
+            padding: 10px;
         }
-        .btn-batal:hover { border-color: #ccc; color: #333; }
-        .page-title { font-weight: 800; color: var(--p-green); font-size: 1.5rem; margin-bottom: 6px; }
-        .page-sub { color: #999; font-size: 0.9rem; margin-bottom: 35px; }
-        .divider { border: none; border-top: 1.5px dashed #eee; margin: 30px 0; }
     </style>
 </head>
+
 <body>
 
-<nav class="navbar navbar-expand-lg sticky-top">
-    <div class="container">
-        <a class="navbar-brand" href="<?= base_url('index.php/dashboard') ?>">
-            <i class="fas fa-gem me-2" style="color: var(--accent-gold);"></i> BAZAAR
-        </a>
-        <div class="ms-auto">
-            <a href="<?= base_url('index.php/dashboard') ?>" class="btn btn-sm btn-outline-success px-4 rounded-pill fw-bold border-2">
-                <i class="fas fa-arrow-left me-2"></i> Kembali
+    <nav class="navbar navbar-expand-lg sticky-top">
+        <div class="container">
+            <a class="navbar-brand" href="<?= base_url('index.php/dashboard') ?>">
+                <i class="fas fa-gem me-2" style="color: var(--accent-gold);"></i> BAZAAR
             </a>
+            <div class="ms-auto">
+                <a href="<?= base_url('index.php/dashboard') ?>"
+                    class="btn btn-sm btn-outline-success px-4 rounded-pill fw-bold">
+                    <i class="fas fa-arrow-left me-2"></i> Kembali
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="form-card">
+            <p class="fw-800 text-success fs-5 mb-1">
+                <i class="fas fa-plus-circle me-2"></i> Tambah Produk Baru
+            </p>
+            <p class="text-muted small mb-4">Isi detail produk yang ingin didaftarkan.</p>
+
+            <form action="<?= base_url('index.php/simpan') ?>" method="post" enctype="multipart/form-data">
+                <?= csrf_field() ?>
+
+                <div class="mb-4">
+                    <label class="form-label">Nama Produk</label>
+                    <input type="text" name="name" class="form-control"
+                        placeholder="cth. Mukena Silk Premium" required>
+                </div>
+
+                <div class="row g-3 mb-4">
+                    <div class="col-md-6">
+                        <label class="form-label">Harga (Rp)</label>
+                        <input type="number" name="price" class="form-control"
+                            placeholder="cth. 250000" required>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label">Stok</label>
+                        <input type="number" name="stock" class="form-control"
+                            placeholder="cth. 10" required>
+                    </div>
+                </div>
+
+                <div class="row g-3 mb-4">
+                    <div class="col-md-6">
+                        <label class="form-label">Kategori</label>
+                        <input type="text" name="category" class="form-control"
+                            placeholder="cth. Busana" required>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label">Akad</label>
+                        <select name="akad" class="form-select">
+                            <option value="Murabahah">Murabahah</option>
+                            <option value="Ijarah">Ijarah</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="mb-4">
+                    <label class="form-label">Foto Produk</label>
+                    <input type="file" name="image" id="imageInput" class="form-control" accept="image/*">
+                    <p class="text-muted small mt-2">Format: JPG, PNG, atau WEBP. Maks 2MB.</p>
+                    <img id="imgPreview" src="#" alt="Preview">
+                </div>
+
+                <hr>
+                <button type="submit" class="btn-simpan">
+                    <i class="fas fa-save me-2"></i> Simpan Produk
+                </button>
+            </form>
         </div>
     </div>
-</nav>
 
-<div class="container">
-    <div class="form-card">
-        <p class="page-title"><i class="fas fa-plus-circle me-2" style="color: var(--accent-gold);"></i> Tambah Produk Baru</p>
-        <p class="page-sub">Lengkapi detail produk yang ingin didaftarkan ke katalog Bazaar.</p>
+    <script>
+        // Script untuk menampilkan preview gambar sebelum diupload
+        const imageInput = document.getElementById('imageInput');
+        const imgPreview = document.getElementById('imgPreview');
 
-        <form action="<?= base_url('index.php/simpan') ?>" method="post">
-            <?= csrf_field() ?>
-
-            <div class="mb-4">
-                <label class="form-label">Nama Produk</label>
-                <input type="text" name="name" class="form-control" placeholder="cth. Mukena Silk Premium" required>
-            </div>
-
-            <div class="row g-3 mb-4">
-                <div class="col-md-6">
-                    <label class="form-label">Harga (Rp)</label>
-                    <input type="number" name="price" class="form-control" placeholder="cth. 250000" required>
-                </div>
-                <div class="col-md-6">
-                    <label class="form-label">Stok</label>
-                    <input type="number" name="stock" class="form-control" placeholder="cth. 10" required>
-                </div>
-            </div>
-
-            <div class="row g-3 mb-4">
-                <div class="col-md-6">
-                    <label class="form-label">Kategori</label>
-                    <input type="text" name="category" class="form-control" placeholder="cth. Busana" required>
-                </div>
-                <div class="col-md-6">
-                    <label class="form-label">Akad</label>
-                    <select name="akad" class="form-select">
-                        <option value="Murabahah">Murabahah</option>
-                        <option value="Ijarah">Ijarah</option>
-                    </select>
-                </div>
-            </div>
-
-            <hr class="divider">
-
-            <div class="row g-3">
-                <div class="col-md-8">
-                    <button type="submit" class="btn-simpan">
-                        <i class="fas fa-save me-2"></i> Simpan Produk
-                    </button>
-                </div>
-                <div class="col-md-4">
-                    <a href="<?= base_url('index.php/dashboard') ?>" class="btn-batal">Batal</a>
-                </div>
-            </div>
-
-        </form>
-    </div>
-</div>
-
+        imageInput.onchange = evt => {
+            const [file] = imageInput.files;
+            if (file) {
+                imgPreview.src = URL.createObjectURL(file);
+                imgPreview.style.display = 'block';
+            }
+        }
+    </script>
 </body>
+
 </html>

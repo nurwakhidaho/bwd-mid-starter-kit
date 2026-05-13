@@ -21,19 +21,19 @@
             align-items: center;
             justify-content: center;
             font-family: 'Plus Jakarta Sans', sans-serif;
+            margin: 0;
         }
 
         .login-card {
             background: white;
             border-radius: 24px;
-            padding: 45px;
+            padding: 40px;
             width: 100%;
             max-width: 400px;
             box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
             border-top: 6px solid var(--a-gold);
         }
 
-        /* Style Brand dengan Icon Diamond */
         .brand {
             font-size: 2.5rem;
             font-weight: 800;
@@ -59,7 +59,6 @@
             margin-bottom: 30px;
         }
 
-        /* Style untuk Toggle Password */
         .password-container {
             position: relative;
         }
@@ -71,15 +70,8 @@
             transform: translateY(-50%);
             cursor: pointer;
             color: #555;
-            /* Warna lebih tegas */
-            transition: 0.3s;
-            font-weight: 900 !important;
-            /* Membuat icon lebih bold */
             font-size: 1.1rem;
-        }
-
-        .toggle-password:hover {
-            color: var(--p-green);
+            z-index: 10;
         }
 
         .btn-login {
@@ -96,6 +88,18 @@
         .btn-login:hover {
             background: #b5952f;
             transform: translateY(-2px);
+            color: white;
+        }
+
+        .register-link {
+            color: var(--p-green);
+            font-weight: 700;
+            text-decoration: none;
+        }
+
+        .register-link:hover {
+            color: var(--a-gold);
+            text-decoration: underline;
         }
     </style>
 </head>
@@ -108,43 +112,34 @@
         <div class="tagline">Marketplace Berkah</div>
 
         <?php if (session()->getFlashdata('error')): ?>
-            <div class="alert alert-danger py-2 small fw-bold"><?= session()->getFlashdata('error') ?></div>
+            <div class="alert alert-danger py-2 small fw-bold mb-3"><?= session()->getFlashdata('error') ?></div>
         <?php endif; ?>
 
         <?php if (session()->getFlashdata('success')): ?>
-            <div class="alert alert-success py-2 small fw-bold"><?= session()->getFlashdata('success') ?></div>
-        <?php endif; ?>
-
-        <?php if (session()->getFlashdata('error')): ?>
-            <div class="alert alert-danger py-2 small fw-bold"><?= session()->getFlashdata('error') ?></div>
+            <div class="alert alert-success py-2 small fw-bold mb-3"><?= session()->getFlashdata('success') ?></div>
         <?php endif; ?>
 
         <form action="<?= base_url('index.php/auth/process') ?>" method="POST">
             <?= csrf_field() ?>
             <div class="mb-3 text-start">
                 <label class="form-label fw-bold small text-muted">USERNAME</label>
-                <input type="text" name="username" class="form-control" placeholder="Masukkan Nama Pengguna" required>
+                <input type="text" name="username" class="form-control shadow-sm" placeholder="Masukkan Nama Pengguna" required>
             </div>
 
             <div class="mb-4 text-start">
                 <label class="form-label fw-bold small text-muted">PASSWORD</label>
                 <div class="password-container">
-                    <input type="password" name="password" id="passwordInput" class="form-control" placeholder="Masukkan Password" required style="padding-right: 45px;">
+                    <input type="password" name="password" id="passwordInput" class="form-control shadow-sm" placeholder="Masukkan Password" required style="padding-right: 45px;">
                     <i class="fas fa-eye toggle-password" id="toggleIcon" onclick="togglePassword()"></i>
                 </div>
             </div>
 
-            <button type="submit" class="btn btn-login shadow">MASUK KE DASHBOARD</button>
+            <button type="submit" class="btn btn-login shadow mb-3">MASUK KE DASHBOARD</button>
         </form>
-        <!-- Tambahan: link ke halaman register -->
-        <div class="mt-4">
-            <p class="text-muted small mb-0">Belum punya akun?
-                <a href="<?= base_url('index.php/auth/register') ?>"
-                   class="fw-bold text-decoration-none"
-                   style="color: var(--p-green);">
-                    Daftar Sekarang
-                </a>
-            </p>
+
+        <div class="mt-2 small">
+            <span class="text-muted">Belum punya akun?</span>
+            <a href="<?= base_url('index.php/register') ?>" class="register-link">Daftar Sekarang</a>
         </div>
     </div>
 
@@ -152,15 +147,12 @@
         function togglePassword() {
             const passwordInput = document.getElementById('passwordInput');
             const toggleIcon = document.getElementById('toggleIcon');
-
             if (passwordInput.type === 'password') {
                 passwordInput.type = 'text';
-                toggleIcon.classList.remove('fa-eye');
-                toggleIcon.classList.add('fa-eye-slash');
+                toggleIcon.classList.replace('fa-eye', 'fa-eye-slash');
             } else {
                 passwordInput.type = 'password';
-                toggleIcon.classList.remove('fa-eye-slash');
-                toggleIcon.classList.add('fa-eye');
+                toggleIcon.classList.replace('fa-eye-slash', 'fa-eye');
             }
         }
     </script>

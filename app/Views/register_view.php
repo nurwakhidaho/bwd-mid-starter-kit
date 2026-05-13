@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Daftar Akun | Bazaar Marketplace</title>
+    <title>Daftar | Bazaar Marketplace</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&display=swap" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
@@ -21,14 +21,15 @@
             align-items: center;
             justify-content: center;
             font-family: 'Plus Jakarta Sans', sans-serif;
+            margin: 0;
         }
 
-        .login-card {
+        .register-card {
             background: white;
             border-radius: 24px;
-            padding: 45px;
+            padding: 40px;
             width: 100%;
-            max-width: 420px;
+            max-width: 400px;
             box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
             border-top: 6px solid var(--a-gold);
         }
@@ -50,36 +51,27 @@
         }
 
         .tagline {
-            color: var(--a-gold);
+            color: #555;
             font-size: 0.75rem;
             font-weight: 700;
             letter-spacing: 2px;
             text-transform: uppercase;
-            margin-bottom: 30px;
+            margin-bottom: 25px;
         }
 
-        .password-container {
-            position: relative;
+        .form-control {
+            border-radius: 10px;
+            padding: 10px 15px;
+            border: 1px solid #ced4da;
         }
 
-        .toggle-password {
-            position: absolute;
-            right: 15px;
-            top: 50%;
-            transform: translateY(-50%);
-            cursor: pointer;
-            color: #555;
-            transition: 0.3s;
-            font-weight: 900 !important;
-            font-size: 1.1rem;
+        .form-control:focus {
+            border-color: var(--p-green);
+            box-shadow: 0 0 0 0.25rem rgba(27, 67, 50, 0.1);
         }
 
-        .toggle-password:hover {
-            color: var(--p-green);
-        }
-
-        .btn-login {
-            background: var(--a-gold);
+        .btn-register {
+            background: var(--p-green);
             color: white;
             border: none;
             border-radius: 12px;
@@ -87,114 +79,64 @@
             font-weight: 800;
             width: 100%;
             transition: 0.3s;
+            margin-top: 10px;
         }
 
-        .btn-login:hover {
-            background: #b5952f;
+        .btn-register:hover {
+            background: #2d5a47;
             transform: translateY(-2px);
+            color: white;
+        }
+
+        .login-link {
+            color: var(--a-gold);
+            font-weight: 700;
+            text-decoration: none;
+        }
+
+        .login-link:hover {
+            text-decoration: underline;
         }
     </style>
 </head>
 
 <body>
-    <div class="login-card text-center">
+    <div class="register-card text-center">
         <div class="brand">
             <i class="fas fa-gem"></i> BAZAAR
         </div>
-        <div class="tagline">Marketplace Berkah</div>
+        <div class="tagline">Pendaftaran Mitra</div>
 
         <?php if (session()->getFlashdata('error')): ?>
-            <div class="alert alert-danger py-2 small fw-bold"><?= session()->getFlashdata('error') ?></div>
+            <div class="alert alert-danger py-2 small fw-bold mb-3"><?= session()->getFlashdata('error') ?></div>
         <?php endif; ?>
 
-        <form action="<?= base_url('index.php/auth/register/process') ?>" method="POST">
+        <form action="<?= base_url('index.php/auth/register_process') ?>" method="POST">
             <?= csrf_field() ?>
 
             <div class="mb-3 text-start">
-                <label class="form-label fw-bold small text-muted">NAMA LENGKAP</label>
-                <!-- value dipertahankan agar tidak kosong saat validasi gagal -->
-                <input type="text"
-                       name="nama"
-                       class="form-control"
-                       placeholder="Masukkan Nama Lengkap"
-                       value="<?= old('nama') ?>"
-                       required>
+                <label class="form-label fw-bold small text-muted">USERNAME BARU</label>
+                <input type="text" name="username" class="form-control" placeholder="Buat Nama Pengguna" required>
             </div>
 
             <div class="mb-3 text-start">
-                <label class="form-label fw-bold small text-muted">USERNAME</label>
-                <input type="text"
-                       name="username"
-                       class="form-control"
-                       placeholder="Buat Nama Pengguna"
-                       value="<?= old('username') ?>"
-                       required>
-            </div>
-
-            <div class="mb-3 text-start">
-                <label class="form-label fw-bold small text-muted">PASSWORD</label>
-                <div class="password-container">
-                    <input type="password"
-                           name="password"
-                           id="passwordInput"
-                           class="form-control"
-                           placeholder="Buat Password (min. 6 karakter)"
-                           required
-                           style="padding-right: 45px;">
-                    <i class="fas fa-eye toggle-password"
-                       id="toggleIcon"
-                       onclick="togglePassword('passwordInput', 'toggleIcon')"></i>
-                </div>
+                <label class="form-label fw-bold small text-muted">ALAMAT EMAIL</label>
+                <input type="email" name="email" class="form-control" placeholder="masukkan@email.com" required>
             </div>
 
             <div class="mb-4 text-start">
-                <label class="form-label fw-bold small text-muted">KONFIRMASI PASSWORD</label>
-                <div class="password-container">
-                    <input type="password"
-                           name="konfirmasi_password"
-                           id="konfirmasiInput"
-                           class="form-control"
-                           placeholder="Ulangi Password"
-                           required
-                           style="padding-right: 45px;">
-                    <i class="fas fa-eye toggle-password"
-                       id="toggleIconKonfirmasi"
-                       onclick="togglePassword('konfirmasiInput', 'toggleIconKonfirmasi')"></i>
-                </div>
+                <label class="form-label fw-bold small text-muted">PASSWORD</label>
+                <input type="password" name="password" class="form-control" placeholder="Buat Password Kuat" required>
             </div>
 
-            <button type="submit" class="btn btn-login shadow">BUAT AKUN</button>
+            <button type="submit" class="btn btn-register shadow mb-3">DAFTAR SEKARANG</button>
         </form>
 
-        <div class="mt-4">
-            <p class="text-muted small mb-0">Sudah punya akun?
-                <a href="<?= base_url('index.php/') ?>"
-                   class="fw-bold text-decoration-none"
-                   style="color: var(--p-green);">
-                    Masuk di sini
-                </a>
-            </p>
+        <div class="mt-2 small">
+            <span class="text-muted">Sudah punya akun?</span>
+            <a href="<?= base_url('index.php/') ?>" class="login-link">Kembali ke Login</a>
         </div>
     </div>
-
-    <script>
-        // Fungsi toggle password diparameterisasi agar bisa dipakai
-        // untuk dua field sekaligus tanpa duplikasi kode
-        function togglePassword(inputId, iconId) {
-            const input = document.getElementById(inputId);
-            const icon  = document.getElementById(iconId);
-
-            if (input.type === 'password') {
-                input.type = 'text';
-                icon.classList.remove('fa-eye');
-                icon.classList.add('fa-eye-slash');
-            } else {
-                input.type = 'password';
-                icon.classList.remove('fa-eye-slash');
-                icon.classList.add('fa-eye');
-            }
-        }
-    </script>
 </body>
 
 </html>

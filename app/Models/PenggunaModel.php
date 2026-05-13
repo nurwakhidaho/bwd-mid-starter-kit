@@ -16,8 +16,8 @@ class PenggunaModel extends Model
 
 
     protected $allowedFields = [
-        'nama',       // <-- tambahan baru
         'username',
+        'email',
         'password',
         'role'
     ];
@@ -28,13 +28,5 @@ class PenggunaModel extends Model
     public function cariPengguna(string $username): ?array
     {
         return $this->where('username', $username)->first();
-    }
-
-
-    // Cek apakah username sudah digunakan oleh pengguna lain
-    // Dipakai oleh method register untuk validasi keunikan username
-    public function isUsernameExist(string $username): bool
-    {
-        return $this->where('username', $username)->countAllResults() > 0;
     }
 }

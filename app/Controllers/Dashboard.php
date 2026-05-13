@@ -32,34 +32,26 @@ class Dashboard extends BaseController
     }
 
     // --- Simpan Produk Baru (Termasuk Upload Foto) ---
-    public function simpan()
-    {
-        $model = new ProductModel();
+public function simpan()
+{
+    // Gunakan method helper yang sudah kita buat:
+    $namaGambar = $this->_prosesUploadGambar();
+    // Jika tidak ada gambar di-upload, namaGambar akan null — itu wajar untuk tambah produk
 
-        // PERBAIKAN: Nama 'image' harus sama dengan <input name="image"> di View
-        $fileGambar = $this->request->getFile('image');
-        $namaGambar = null;
+    $model = new ProductModel();
+    $model->save([
+        'name'     => $this->request->getPost('name'),
+        'price'    => $this->request->getPost('price'),
+        'stock'    => $this->request->getPost('stock'),
+        'akad'     => $this->request->getPost('akad'),
+        'category' => $this->request->getPost('category'),
+        'image'    => $namaGambar,   // bisa null jika tidak ada gambar
+    ]);
 
-        // Logika upload jika ada file
-        if ($fileGambar && $fileGambar->isValid() && !$fileGambar->hasMoved()) {
-            $namaGambar = $fileGambar->getRandomName();
+    session()->setFlashdata('success', 'Produk berhasil ditambahkan!');
+    return redirect()->to(base_url('index.php/dashboard'));
+}
 
-            // PERBAIKAN: Gunakan FCPATH agar masuk ke folder public/uploads/produk/
-            $fileGambar->move(FCPATH . 'uploads/produk/', $namaGambar);
-        }
-
-        $model->save([
-            'name'     => $this->request->getPost('name'),
-            'price'    => $this->request->getPost('price'),
-            'stock'    => $this->request->getPost('stock'),
-            'akad'     => $this->request->getPost('akad'),
-            'category' => $this->request->getPost('category'),
-            'image'    => $namaGambar,
-        ]);
-
-        session()->setFlashdata('success', 'Produk berhasil ditambahkan!');
-        return redirect()->to(base_url('index.php/dashboard'));
-    }
 
     // --- Hapus Produk & File Gambarnya ---
     public function hapus(int $id)
@@ -96,36 +88,63 @@ class Dashboard extends BaseController
     }
 
     // --- Perbarui Data Produk & Ganti Foto ---
-    public function update(int $id)
-    {
-        $model = new ProductModel();
-        $produkLama = $model->find($id);
+ public function update(int $id)
+{
+    $model = new ProductModel();
+    $produkLama = $model->find($id);
 
-        // PERBAIKAN: Sesuaikan nama input menjadi 'image'
-        $fileGambar = $this->request->getFile('image');
+    // SETELAH refactoring — satu baris ini menggantikan seluruh blok upload:
+    $namaGambarBaru = $this->_prosesUploadGambar();
+
+    // Jika tidak ada gambar baru di-upload, gunakan gambar lama dari database
+    if ($namaGambarBaru === null) {
         $namaGambarBaru = $produkLama['image'];
-
-        // Cek jika user mengunggah file baru
-        if ($fileGambar && $fileGambar->isValid() && !$fileGambar->hasMoved()) {
-            $namaGambarBaru = $fileGambar->getRandomName();
-            $fileGambar->move(FCPATH . 'uploads/produk/', $namaGambarBaru);
-
-            // Hapus file foto lama agar folder tidak penuh
-            if (!empty($produkLama['image']) && file_exists(FCPATH . 'uploads/produk/' . $produkLama['image'])) {
-                @unlink(FCPATH . 'uploads/produk/' . $produkLama['image']);
-            }
+    } else {
+        // Ada gambar baru — hapus file foto lama agar folder tidak penuh
+        if (!empty($produkLama['image']) && file_exists(FCPATH . 'uploads/produk/' . $produkLama['image'])) {
+            @unlink(FCPATH . 'uploads/produk/' . $produkLama['image']);
         }
-
-        $model->update($id, [
-            'name'     => $this->request->getPost('name'),
-            'price'    => $this->request->getPost('price'),
-            'stock'    => $this->request->getPost('stock'),
-            'akad'     => $this->request->getPost('akad'),
-            'category' => $this->request->getPost('category'),
-            'image'    => $namaGambarBaru,
-        ]);
-
-        session()->setFlashdata('success', 'Produk berhasil diperbarui!');
-        return redirect()->to(base_url('index.php/dashboard'));
     }
+
+    $model->update($id, [
+        'name'     => $this->request->getPost('name'),
+        'price'    => $this->request->getPost('price'),
+        'stock'    => $this->request->getPost('stock'),
+        'akad'     => $this->request->getPost('akad'),
+        'category' => $this->request->getPost('category'),
+        'image'    => $namaGambarBaru,
+    ]);
+
+    session()->setFlashdata('success', 'Produk berhasil diperbarui!');
+    return redirect()->to(base_url('index.php/dashboard'));
+}
+
+
+
+/**
+ * Method privat untuk memproses upload gambar produk.
+ * Mengimplementasikan prinsip SRP (Single Responsibility Principle).
+ *
+ * @return string|null Nama file baru jika upload berhasil, null jika tidak ada file.
+ */
+private function _prosesUploadGambar(): ?string
+{
+    $gambar = $this->request->getFile('image');
+
+    // Cek: apakah ada file yang di-upload, valid, dan belum dipindahkan?
+    if ($gambar && $gambar->isValid() && !$gambar->hasMoved()) {
+
+        // Buat nama file unik agar tidak bentrok dengan file lain
+ $namaFileBaru = $gambar->getRandomName();
+
+        // KRUSIAL: gunakan FCPATH (bukan ROOTPATH) agar masuk ke public/uploads/produk/
+        $gambar->move(FCPATH . 'uploads/produk/', $namaFileBaru);
+
+        return $namaFileBaru; // Kembalikan nama file untuk disimpan ke database
+    }
+
+    return null; // Tidak ada gambar yang di-upload
+}
+
+
 } 

@@ -57,5 +57,70 @@ class Auth extends BaseController
         session()->destroy();
         return redirect()->to(base_url('index.php/'));
     }
-}
 
+
+    // Tampilkan halaman form register
+    public function registerForm()
+    {
+        // Kalau sudah login, tidak perlu ke halaman register
+        if (session()->get('isLoggedIn')) {
+            return redirect()->to(base_url('index.php/dashboard'));
+        }
+        return view('register_view');
+    }
+
+
+    // Proses data dari form register
+    public function registerProcess()
+    {
+        $model = new PenggunaModel();
+
+        // Ambil semua input dari form
+        $nama            = $this->request->getPost('nama');
+        $username        = $this->request->getPost('username');
+        $password        = $this->request->getPost('password');
+        $konfirmasiPass  = $this->request->getPost('konfirmasi_password');
+
+        // --- Validasi Manual ---
+
+        // Semua field wajib diisi
+        if (empty($nama) || empty($username) || empty($password) || empty($konfirmasiPass)) {
+            session()->setFlashdata('error', 'Semua field wajib diisi.');
+            return redirect()->to(base_url('index.php/auth/register'));
+        }
+
+        // Password minimal 6 karakter
+        if (strlen($password) < 6) {
+            session()->setFlashdata('error', 'Password minimal 6 karakter.');
+            return redirect()->to(base_url('index.php/auth/register'));
+        }
+
+        // Konfirmasi password harus cocok
+        if ($password !== $konfirmasiPass) {
+            session()->setFlashdata('error', 'Konfirmasi password tidak cocok.');
+            return redirect()->to(base_url('index.php/auth/register'));
+        }
+
+        // Username harus unik — cek ke database
+        if ($model->isUsernameExist($username)) {
+            session()->setFlashdata('error', 'Username sudah digunakan. Pilih username lain.');
+            return redirect()->to(base_url('index.php/auth/register'));
+        }
+
+        // --- Semua validasi lolos, simpan ke database ---
+
+        // Hash password menggunakan SHA256, konsisten dengan sistem login lama
+        $passwordHashed = hash('sha256', $password);
+
+        $model->insert([
+            'nama'     => $nama,
+            'username' => $username,
+            'password' => $passwordHashed,
+            'role'     => 'user', // Role default untuk pengguna baru
+        ]);
+
+        // Registrasi berhasil — arahkan ke login dengan pesan sukses
+        session()->setFlashdata('success', 'Akun berhasil dibuat! Silakan masuk.');
+        return redirect()->to(base_url('index.php/'));
+    }
+}
